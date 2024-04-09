@@ -1,0 +1,14 @@
+import{i,S as f}from"./assets/vendor-8c59ed88.js";(function(){const s=document.createElement("link").relList;if(s&&s.supports&&s.supports("modulepreload"))return;for(const e of document.querySelectorAll('link[rel="modulepreload"]'))r(e);new MutationObserver(e=>{for(const t of e)if(t.type==="childList")for(const n of t.addedNodes)n.tagName==="LINK"&&n.rel==="modulepreload"&&r(n)}).observe(document,{childList:!0,subtree:!0});function o(e){const t={};return e.integrity&&(t.integrity=e.integrity),e.referrerPolicy&&(t.referrerPolicy=e.referrerPolicy),e.crossOrigin==="use-credentials"?t.credentials="include":e.crossOrigin==="anonymous"?t.credentials="omit":t.credentials="same-origin",t}function r(e){if(e.ep)return;e.ep=!0;const t=o(e);fetch(e.href,t)}})();function d(a){return a.map(({webformatURL:s,tags:o,largeImageURL:r,likes:e,views:t,comments:n,downloads:p})=>` <li class="gallery-item">
+        <a class="gallery-link" href="${r}" >
+          <img class="gallery-image"
+           src="${s}" 
+           alt="${o}" 
+           width = "360"/>
+          <ul class="card-descr">
+           <li class="card-element"><span class="label">Likes</span> <p class ="value">${e}</p></li>
+            <li class="card-element"><span class="label">Views</span> <p class ="value">${t}</p></li>
+            <li class="card-element"><span class="label">Comments</span> <p class ="value">${n}</p></li>
+            <li class="card-element"><span class="label">Downloads</span><p class ="value">${p}</p></li></ul>
+        </a>
+      </li>`).join("")}function g(a){const s="https://pixabay.com/api/",o="43193709-9f2e77a8cd9049868dd3fabee",r=new URLSearchParams({key:o,q:a,image_type:"photo",orientation:"horizontal",safesearch:"true"});return fetch(`${s}?${r}`).then(e=>{if(!e.ok)throw new Error(e.statusText);return e.json()}).catch(e=>{throw e})}const u=document.querySelector(".search-form"),l=document.querySelector(".gallery"),h=document.querySelector("button"),c=document.querySelector(".loader");h.addEventListener("click",m);u.addEventListener("submit",m);function m(a){a.preventDefault();const o=document.querySelector(".search-form input").value.trim();c.style.display="block",l.innerHTML="",g(o).then(r=>{if(r.hits.length===0)i.show({message:"Sorry, there are no images matching your search query. Please try again!",messageColor:" #fff",backgroundColor:"#ef4040",position:"topCenter",messageSize:"16px",messageLineHeight:"150%",iconColor:"white"});else{l.innerHTML=d(r.hits);const e={captionDelay:250,captionsData:"alt",captionPosition:"bottom"};new f(".gallery a",e).refresh()}}).catch(r=>{l.innerHTML="",i.show({message:"An error occurred while fetching images. Please try again later.",messageColor:" #fff",backgroundColor:"#ef4040",position:"topCenter",messageSize:"16px",messageLineHeight:"150%",iconColor:"white"})}).finally(()=>{c.style.display="none",u.reset()})}
+//# sourceMappingURL=commonHelpers.js.map
