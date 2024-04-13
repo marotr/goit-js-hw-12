@@ -20,6 +20,7 @@ loadBtn.addEventListener("click", loadMore)
 button.addEventListener("click", handleSearch);
 searchImage.addEventListener("submit", handleSearch);
 let page = 1; 
+
 function handleSearch(evt) {
   
   evt.preventDefault();
@@ -101,20 +102,16 @@ async function loadMore() {
     const data = await serviceImage(page);
     if (data && data.hits && data.hits.length > 0) {
       galleryList.insertAdjacentHTML ('beforeend', createMarkup(data.hits));
- console.log("Page:", page);
+      if (data.page >= data.totalPages) {
+        loadBtn.classList.replace( "load-more", "load-hidden")
+   
+ }
     } else {
       loadBtn.style.display = "none";
     }
+   
   }
   catch(error){}
 }
 
-function updateSearch() {
-   
-    page = 1;
-    galleryList.innerHTML = '';
-    loader.style.display = 'none';
-    
-    handleSearch();
-}
 
