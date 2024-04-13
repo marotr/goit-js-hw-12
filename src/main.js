@@ -21,6 +21,13 @@ button.addEventListener("click", handleSearch);
 searchImage.addEventListener("submit", handleSearch);
 let page = 1; 
 
+function showLoader() {
+  loader.style.display = 'block';
+}
+
+function hideLoader() {
+  loader.style.display = 'none';
+}
 function handleSearch(evt) {
   
   evt.preventDefault();
@@ -39,7 +46,7 @@ function handleSearch(evt) {
         return; 
     }
 
-  loader.style.display = 'block';
+ showLoader();
   galleryList.innerHTML = '';
  
 
@@ -89,21 +96,33 @@ if (page < totalPages) {
       });
     })
       .finally(() => {
-      loader.style.display = 'none';
+     hideLoader();
       searchImage.reset();
     });
 }
 
 async function loadMore() {
+   showLoader();
 
-  
+  loadBtn.disabled = true;
   try {
-    page += 1;
+    page ++;
     const data = await serviceImage(page);
     if (data && data.hits && data.hits.length > 0) {
-      galleryList.insertAdjacentHTML ('beforeend', createMarkup(data.hits));
+      galleryList.insertAdjacentHTML('beforeend', createMarkup(data.hits));
+      loadBtn.disabled = false;
       if (data.page >= data.totalPages) {
-        loadBtn.classList.replace( "load-more", "load-hidden")
+        loadBtn.classList.replace("load-more", "load-hidden");
+        iziToast.show({
+          message: "We're sorry, but you've reached the end of search results.",
+          messageColor: ' #fff',
+          backgroundColor: '#ef4040',
+          position: 'topCenter',
+          messageSize: '16px',
+          messageLineHeight: '150%',
+          iconColor:'white'
+        });
+       
    
  }
     } else {
@@ -111,7 +130,29 @@ async function loadMore() {
     }
    
   }
-  catch(error){}
+  catch (error) { }
+  finally {
+    hideLoader();
+  }
 }
+
+
+
+function smoothScrollToNextGroup() {
+    const firstGalleryItem = document.querySelector('.gallery a');
+    if (firstGalleryItem) {
+        const galleryItemHeight = firstGalleryItem.getBoundingClientRect().height;
+        window.scrollBy({
+            top: galleryItemHeight * 2, 
+            behavior: 'smooth' 
+        });
+    } else {
+        
+    }
+}
+
+
+smoothScrollToNextGroup();
+
 
 
