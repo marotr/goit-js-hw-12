@@ -96,9 +96,7 @@ button:focus {
   width: 125px;
   margin-top: 20px;
 }
-.load-hidden {
-  display: none;
-}
+
 .gallery {
   list-style: none;
   display: flex;

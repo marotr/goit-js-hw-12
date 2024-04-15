@@ -9,7 +9,7 @@ export async function serviceImage(image, page = "1") {
       orientation: 'horizontal',
       safesearch: 'true',
       page: page,
-      per_page: 150
+      per_page: 15
     };
  
   try {
