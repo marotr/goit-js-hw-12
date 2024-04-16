@@ -20,6 +20,7 @@ const searchInput = document.querySelector(".search-form input");
 searchInput.addEventListener("input", () => {
   page = 1;
   galleryList.innerHTML = '';
+  loadBtn.style.display = 'none';
 });
 
 searchImage.addEventListener("submit", handleSearch);
@@ -56,7 +57,6 @@ function handleSearch(evt) {
 
   showLoader();
   galleryList.innerHTML = '';
-  
   loadBtn.style.display = 'none';
 
  
@@ -122,8 +122,7 @@ async function loadMore() {
       toggleLoadButton(data.totalHits);
       smoothScrollToNextGroup();
       if (data.hits.length < 15) {
-        console.log('per page' (per_page.data));
-        console.log('total'( total.data));
+    
         loadBtn.style.display = 'none'
         endMsg.style.display = 'block'
       }
