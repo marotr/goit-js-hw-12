@@ -27,6 +27,7 @@ searchImage.addEventListener("submit", handleSearch);
 let page = 1;
 let currentKeyword = '';
 endMsg.style.display = 'none';
+loadBtn.style.display = 'none';
 
 function showLoader() {
   loader.style.display = 'block';
@@ -55,8 +56,10 @@ function handleSearch(evt) {
 
   showLoader();
   galleryList.innerHTML = '';
+  
   loadBtn.style.display = 'none';
-  console.log(loadBtn.style.display);
+
+ 
 
   serviceImage(currentKeyword)
     .then(data => {
@@ -81,8 +84,7 @@ function handleSearch(evt) {
         const lightbox = new SimpleLightbox('.gallery a', lightboxOptions);
         lightbox.refresh();
 
-        const perPage = 15;
-        const totalPages = Math.ceil(data.total / perPage);
+        const totalPages = Math.ceil(data.totalHits / 15);
 
         if (page < totalPages) {
           loadBtn.style.display = 'block';
@@ -110,7 +112,6 @@ function handleSearch(evt) {
 
 async function loadMore() {
   showLoader();
-  loadBtn.disabled = true;
 
   try {
     page++;
@@ -120,6 +121,12 @@ async function loadMore() {
       galleryList.insertAdjacentHTML('beforeend', createMarkup(data.hits));
       toggleLoadButton(data.totalHits);
       smoothScrollToNextGroup();
+      if (data.hits.length < 15) {
+        console.log('per page' (per_page.data));
+        console.log('total'( total.data));
+        loadBtn.style.display = 'none'
+        endMsg.style.display = 'block'
+      }
     } else {
       loadBtn.style.display = "none";
       if (page === 1) {
@@ -133,7 +140,8 @@ async function loadMore() {
           iconColor: 'white'
         });
       } else {
-        endMsg.style.display = 'block'; // Display end message when end of collection is reached
+        endMsg.style.display = 'block'; 
+        loadBtn.style.display = 'none';
         iziToast.show({
           message: "We're sorry, but you've reached the end of search results.",
           messageColor: '#fff',

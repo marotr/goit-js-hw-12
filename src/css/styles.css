@@ -137,3 +137,13 @@ button:focus {
   letter-spacing: 0.04em;
   color: #2e2f42;
 }
+.end-message {
+  line-height: 150%;
+  letter-spacing: 0.04em;
+  color: #4e75ff;
+  box-sizing: border-box;
+  font-weight: 600;
+  margin-top: 20px;
+  font-size: 20px;
+  text-align: center;
+}
