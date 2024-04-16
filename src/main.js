@@ -73,6 +73,7 @@ function handleSearch(evt) {
           messageLineHeight: '150%',
           iconColor: 'white'
         });
+        
       } else {
         galleryList.innerHTML = createMarkup(data.hits);
         const lightboxOptions = {
@@ -90,6 +91,12 @@ function handleSearch(evt) {
           loadBtn.style.display = 'block';
           endMsg.style.display = 'none';
         }
+      }
+         if (data.hits.length < 15) {
+
+      loadBtn.style.display = 'none';
+      endMsg.style.display = 'block';
+   
       }
     })
     .catch(error => {
@@ -121,11 +128,9 @@ async function loadMore() {
       galleryList.insertAdjacentHTML('beforeend', createMarkup(data.hits));
       toggleLoadButton(data.totalHits);
       smoothScrollToNextGroup();
-      if (data.hits.length < 15) {
-    
-        loadBtn.style.display = 'none'
-        endMsg.style.display = 'block'
-      }
+      
+     
+      
     } else {
       loadBtn.style.display = "none";
       if (page === 1) {
@@ -152,6 +157,7 @@ async function loadMore() {
         });
       }
     }
+  
   } catch (error) {
     loadBtn.style.display = "none";
     iziToast.show({
@@ -173,6 +179,15 @@ function toggleLoadButton(totalHits) {
   if (page * 15 >= totalHits) {
     loadBtn.style.display = 'none';
     endMsg.style.display = 'block';
+     iziToast.show({
+      message: "You've reached the end of search results.",
+      messageColor: '#fff',
+      backgroundColor: '#ef4040',
+      position: 'topCenter',
+      messageSize: '16px',
+      messageLineHeight: '150%',
+      iconColor: 'white'
+    });
   } else {
     loadBtn.style.display = 'block';
     endMsg.style.display = 'none';
